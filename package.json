@@ -1,0 +1,22 @@
+{
+  "name": "covid-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=development --output-path ./",
+    "serve": "webpack serve --mode=development --output-path ./"
+  },
+  "keywords": [],
+  "author": "v0f",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "webpack": "^5.10.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
