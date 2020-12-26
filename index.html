@@ -7,22 +7,53 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Covid-19 Dashboard <span class="updated"></span></h1>
-  <div class="left">
-    <div class="list">
-      <div class="search">
-        <input type="text">
-        <ul class="countries">
-
-        </ul>
+  <header>
+    <h1>Covid-19 Dashboard <span class="updated"></span></h1>
+  </header>
+  <main>
+    <div class="left">
+      <input type="text" class="search" placeholder="search">
+      <ul class="countries">
+      </ul>
+      <div class="controls">
+        <select name="cases-list" id="cases-list">
+          <option value="cases">cases</option>
+          <option value="deaths">deaths</option>
+          <option value="recovered">recovered</option>
+        </select>
+        <select name="period-list" id="period-list">
+          <option value="total">total</option>
+          <option value="day">day</option>
+        </select>
+        <select name="numbers-list" id="numbers-list">
+          <option value="absolute">absolute</option>
+          <option value="per100k">per100k</option>
+        </select>
       </div>
     </div>
-  </div>
-  <div class="map"></div>
-  <div class="right">
-    <div class="table"></div>
-    <div class="chart"></div>
-  </div>
+    <div class="map"></div>
+    <div class="right">
+      <div class="table-widget">
+        <div class="table"></div>
+        <div class="controls">
+          <select name="cases-table" id="cases-table">
+            <option value="cases">cases</option>
+            <option value="deaths">deaths</option>
+            <option value="recovered">recovered</option>
+          </select>
+          <select name="period-table" id="period-table">
+            <option value="total">total</option>
+            <option value="day">day</option>
+          </select>
+          <select name="numbers-table" id="numbers-table">
+            <option value="absolute">absolute</option>
+            <option value="per100k">per100k</option>
+          </select>
+        </div>
+      </div>
+      <div class="chart"></div>
+    </div>
+  </main>
   <footer>
     <a href="https://github.com/v0f">github.com/v0f</a>
     <span>2020</span>
