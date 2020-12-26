@@ -5,7 +5,7 @@ class App {
     // this.cases = 'cases';
     // this.period = 'total';
     // this.numbers = 'absolute';
-    this.country = 'global';
+    this.country = 'Global';
     this.viewMode = {
       cases: 'cases',
       period: 'total',
@@ -20,6 +20,7 @@ class App {
     // Object.assign(this.global, { country: 'Global' });
     this.countries.push(this.global);
     this.render();
+    this.registerCallbacks();
 
     document.querySelector('.preloader').classList.remove('show');
   }
@@ -36,10 +37,11 @@ class App {
       .sort((a, b) => b.cases - a.cases)
       .forEach((country) => {
         const li = document.createElement('li');
+        li.country = country.country;
+        if (country.country === this.country) li.classList.add('selected');
         const flag = country.country !== 'Global' ? `<img src="${country.countryInfo.flag}"` : '';
-        const isSelected = country === this.country;
         li.innerHTML = `${flag}
-          <span class="${isSelected ? 'selected' : ''}">${country.country}</span>
+          <span>${country.country}</span>
           <span>${country.cases}</span>`;
         list.append(li);
       });
@@ -47,11 +49,22 @@ class App {
 
   renderTable() {
     const table = document.querySelector('.table');
+    const country = this.countries.find((c) => c.country === this.country);
     table.innerHTML = '';
-    table.innerHTML = `<h2>Global</h2>
-      <div>confirmed: ${this.global.cases}</div>
-      <div>deaths: ${this.global.deaths}</div>
-      <div>recovered: ${this.global.recovered}</div>`;
+    table.innerHTML = `<h2>${country.country}</h2>
+      <div>confirmed: ${country.cases}</div>
+      <div>deaths: ${country.deaths}</div>
+      <div>recovered: ${country.recovered}</div>`;
+  }
+
+  onCountriesListClick(e) {
+    const li = e.target.closest('li');
+    this.country = li.country;
+    this.render();
+  }
+
+  registerCallbacks() {
+    document.querySelector('.countries').onclick = (e) => this.onCountriesListClick(e);
   }
 }
 

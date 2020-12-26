@@ -87,6 +87,9 @@ li:hover {
   text-shadow: 1px 1px 1px;
   background: lightskyblue;
 }
+li.selected {
+  background: lightskyblue;
+}
 li {
   font-size: 2rem;
   padding: 5px;
