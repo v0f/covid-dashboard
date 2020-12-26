@@ -14,11 +14,12 @@ class App {
   }
 
   async init() {
-    this.countries = await api.getCountriesList();
-    this.global = await api.getGlobalInfo();
-    this.global.country = 'Global';
-    // Object.assign(this.global, { country: 'Global' });
-    this.countries.push(this.global);
+    let countries = await api.getCountriesList();
+    countries = countries.filter((c) => c.population > 0);
+    const global = await api.getGlobalInfo();
+    global.country = 'Global';
+    countries.push(global);
+    this.countries = countries;
     this.render();
     this.registerCallbacks();
 
@@ -33,8 +34,9 @@ class App {
   renderCountriesList() {
     const list = document.querySelector('.countries');
     list.innerHTML = '';
-    Array.from(this.countries)
-      .sort((a, b) => b.cases - a.cases)
+    const viewCases = this.viewMode.cases;
+    this.countries
+      .sort((a, b) => this.getNumber(b, viewCases) - this.getNumber(a, viewCases))
       .forEach((country) => {
         const li = document.createElement('li');
         li.country = country.country;
@@ -42,7 +44,7 @@ class App {
         const flag = country.country !== 'Global' ? `<img src="${country.countryInfo.flag}"` : '';
         li.innerHTML = `${flag}
           <span>${country.country}</span>
-          <span>${country.cases}</span>`;
+          <span>${this.getNumber(country, viewCases)}</span>`;
         list.append(li);
       });
   }
@@ -52,9 +54,9 @@ class App {
     const country = this.countries.find((c) => c.country === this.country);
     table.innerHTML = '';
     table.innerHTML = `<h2>${country.country}</h2>
-      <div>confirmed: ${country.cases}</div>
-      <div>deaths: ${country.deaths}</div>
-      <div>recovered: ${country.recovered}</div>`;
+      <div>confirmed: ${this.getNumber(country, 'cases')}</div>
+      <div>deaths: ${this.getNumber(country, 'deaths')}</div>
+      <div>recovered: ${this.getNumber(country, 'recovered')}</div>`;
   }
 
   onCountriesListClick(e) {
@@ -63,8 +65,33 @@ class App {
     this.render();
   }
 
+  onSelectChange(e) {
+    const { name, value } = e.target;
+    console.log(name, value);
+    document.querySelectorAll(`select[name=${name}]`).forEach((s) => {
+      const select = s;
+      select.value = value;
+    });
+    this.viewMode[name] = value;
+    this.render();
+  }
+
   registerCallbacks() {
     document.querySelector('.countries').onclick = (e) => this.onCountriesListClick(e);
+    document.querySelectorAll('select').forEach((select) => {
+      select.addEventListener('change', (e) => this.onSelectChange(e));
+    });
+  }
+
+  getNumber(country, cases) {
+    const keys = {
+      total: { cases: 'cases', deaths: 'deaths', recovered: 'recovered' },
+      day: { cases: 'todayCases', deaths: 'todayDeaths', recovered: 'todayRecovered' },
+    };
+    const key = keys[this.viewMode.period][cases];
+    let number = country[key];
+    if (this.viewMode.numbers === 'per100k') number = Math.round((number / country.population) * 100000);
+    return number;
   }
 }
 
