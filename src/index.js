@@ -6,6 +6,7 @@ class App {
     // this.period = 'total';
     // this.numbers = 'absolute';
     this.country = 'Global';
+    this.countryFilter = '';
     this.viewMode = {
       cases: 'cases',
       period: 'total',
@@ -35,7 +36,10 @@ class App {
     const list = document.querySelector('.countries');
     list.innerHTML = '';
     const viewCases = this.viewMode.cases;
-    this.countries
+    const countries = this.countryFilter
+      ? this.countries.filter((c) => c.country.includes(this.countryFilter))
+      : this.countries;
+    countries
       .sort((a, b) => this.getNumber(b, viewCases) - this.getNumber(a, viewCases))
       .forEach((country) => {
         const li = document.createElement('li');
@@ -76,11 +80,20 @@ class App {
     this.render();
   }
 
+  onSearch(e) {
+    const query = e.target.value.trim();
+    if (query !== this.countryFilter) {
+      this.countryFilter = query;
+      this.renderCountriesList();
+    }
+  }
+
   registerCallbacks() {
     document.querySelector('.countries').onclick = (e) => this.onCountriesListClick(e);
     document.querySelectorAll('select').forEach((select) => {
       select.addEventListener('change', (e) => this.onSelectChange(e));
     });
+    document.querySelector('.search').oninput = (e) => this.onSearch(e);
   }
 
   getNumber(country, cases) {

@@ -110,6 +110,7 @@ li {
 
 .countries {
   overflow-y: scroll;
+  flex-grow: 1;
 }
 
 .table {
