@@ -31,7 +31,24 @@
         </select>
       </div>
     </div>
-    <div id="map"></div>
+    <div class="map-widget">
+      <div class="controls">
+        <select name="cases" id="cases-map" autocomplete="off">
+          <option value="cases" selected>cases</option>
+          <option value="deaths">deaths</option>
+          <option value="recovered">recovered</option>
+        </select>
+        <select name="period" id="period-map" autocomplete="off">
+          <option value="total" selected>total</option>
+          <option value="day">day</option>
+        </select>
+        <select name="numbers" id="numbers-map" autocomplete="off">
+          <option value="absolute" selected>absolute</option>
+          <option value="per100k">per100k</option>
+        </select>
+      </div>
+      <div id="map"></div>
+    </div>
     <div class="right">
       <div class="table-widget">
         <div class="table"></div>
