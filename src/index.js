@@ -1,10 +1,8 @@
 import api from './api';
+import map from './map';
 
 class App {
   constructor() {
-    // this.cases = 'cases';
-    // this.period = 'total';
-    // this.numbers = 'absolute';
     this.country = 'Global';
     this.countryFilter = '';
     this.viewMode = {
@@ -21,6 +19,7 @@ class App {
     global.country = 'Global';
     countries.push(global);
     this.countries = countries;
+    this.setMapData();
     this.render();
     this.registerCallbacks();
 
@@ -36,9 +35,11 @@ class App {
     const list = document.querySelector('.countries');
     list.innerHTML = '';
     const viewCases = this.viewMode.cases;
-    const countries = this.countryFilter
-      ? this.countries.filter((c) => c.country.includes(this.countryFilter))
-      : this.countries;
+    let { countries } = this;
+    if (this.countryFilter) {
+      countries = this.countries.filter((c) => c.country.toLowerCase()
+        .includes(this.countryFilter.toLowerCase()));
+    }
     countries
       .sort((a, b) => this.getNumber(b, viewCases) - this.getNumber(a, viewCases))
       .forEach((country) => {
@@ -63,6 +64,12 @@ class App {
       <div>recovered: ${this.getNumber(country, 'recovered')}</div>`;
   }
 
+  setMapData() {
+    map.series.getIndex(0).data = this.countries
+      .filter((c) => c.country !== 'Global')
+      .map((c) => ({ id: c.countryInfo.iso2, value: this.getNumber(c, this.viewMode.cases) }));
+  }
+
   onCountriesListClick(e) {
     const li = e.target.closest('li');
     this.country = li.country;
@@ -78,6 +85,7 @@ class App {
     });
     this.viewMode[name] = value;
     this.render();
+    this.setMapData();
   }
 
   onSearch(e) {
@@ -94,6 +102,7 @@ class App {
       select.addEventListener('change', (e) => this.onSelectChange(e));
     });
     document.querySelector('.search').oninput = (e) => this.onSearch(e);
+    // map.events.on('down', (...args) => console.log('map click', args));
   }
 
   getNumber(country, cases) {
