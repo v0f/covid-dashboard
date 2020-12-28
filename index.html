@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Covid-19 Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Covid-19 Dashboard <span class="updated"></span></h1>
+  </header>
+  <main>
+    <div class="left">
+      <input type="text" class="search" placeholder="search" autocomplete="off">
+      <ul class="countries">
+      </ul>
+      <div class="controls">
+        <select name="cases" id="cases-list" autocomplete="off">
+          <option value="cases" selected>cases</option>
+          <option value="deaths">deaths</option>
+          <option value="recovered">recovered</option>
+        </select>
+        <select name="period" id="period-list" autocomplete="off">
+          <option value="total" selected>total</option>
+          <option value="day">day</option>
+        </select>
+        <select name="numbers" id="numbers-list" autocomplete="off">
+          <option value="absolute" selected>absolute</option>
+          <option value="per100k">per100k</option>
+        </select>
+      </div>
+    </div>
+    <div class="map-widget">
+      <div class="controls">
+        <select name="cases" id="cases-map" autocomplete="off">
+          <option value="cases" selected>cases</option>
+          <option value="deaths">deaths</option>
+          <option value="recovered">recovered</option>
+        </select>
+        <select name="period" id="period-map" autocomplete="off">
+          <option value="total" selected>total</option>
+          <option value="day">day</option>
+        </select>
+        <select name="numbers" id="numbers-map" autocomplete="off">
+          <option value="absolute" selected>absolute</option>
+          <option value="per100k">per100k</option>
+        </select>
+      </div>
+      <div id="map"></div>
+    </div>
+    <div class="right">
+      <div class="table-widget">
+        <div class="table"></div>
+        <div class="controls">
+          <select name="cases" id="cases-table" autocomplete="off">
+            <option value="cases" selected>cases</option>
+            <option value="deaths">deaths</option>
+            <option value="recovered">recovered</option>
+          </select>
+          <select name="period" id="period-table" autocomplete="off">
+            <option value="total" selected>total</option>
+            <option value="day">day</option>
+          </select>
+          <select name="numbers" id="numbers-table" autocomplete="off">
+            <option value="absolute" selected>absolute</option>
+            <option value="per100k">per100k</option>
+          </select>
+        </div>
+      </div>
+      <div class="chart"></div>
+    </div>
+  </main>
+  <footer>
+    <a href="https://github.com/v0f">github.com/v0f</a>
+    <span>2020</span>
+    <a href="https://rs.school/js/">
+      <img src="https://rs.school/images/rs_school_js.svg" alt="rs.school">
+    </a>
+  </footer>
+  <div class="preloader show">
+    <img src="assets/preloader.gif" alt="">
+    <span>loading ...</span>
+  </div>
+  <!-- <script src="//cdn.amcharts.com/lib/4/core.js"></script>
+  <script src="//cdn.amcharts.com/lib/4/maps.js"></script>
+  <script src="//cdn.amcharts.com/lib/4/geodata/worldLow.js"></script> -->
+  <script src="main.js"></script>
+</body>
+</html>
